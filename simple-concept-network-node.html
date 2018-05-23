@@ -1,0 +1,154 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../lrn-icons/lrn-icons.html">
+<link rel="import" href="../materializecss-styles/materializecss-styles.html">
+<!--
+`simple-concept-network-node`
+A small but effective little data visualizer for topics surrounding
+a central concept, much like the ELMS:LN snowflake icon.
+
+@demo demo/index.html
+
+@microcopy - the mental model for this element
+ - ELMS:LN - The ELMS: Learning Network "snowflake" is a network diagram
+
+-->
+
+<dom-module id="simple-concept-network-node">
+  <template>
+    <style include="materializecss-styles">
+      :host {
+        display: inline-flex;
+        --simple-concept-network-bg: #206;
+        --simple-concept-network-color: #fff;
+      }
+      paper-button {
+        -webkit-transition: .6s transform ease-in-out;
+        transition: .6s transform ease-in-out;
+      }
+      :host[visualization="network"] paper-button:hover,
+      :host[visualization="network"] paper-button:focus {
+        opacity: .8;
+      }
+      :host[visualization="3d"] paper-button {
+        -webkit-transform: perspective(600px) rotateX(60deg);
+        -moz-transform: perspective(600px) rotateX(60deg);
+        -ms-transform: perspective(600px) rotateX(60deg);
+        -o-transform: perspective(600px) rotateX(60deg);
+        transform: perspective(600px) rotateX(60deg);
+        -webkit-box-shadow: 0 0 10px -1px #222222;
+        box-shadow: 0 0 10px -1px #222222;
+      }
+      :host[visualization="3d"] paper-button:hover,
+      :host[visualization="3d"] paper-button:focus {
+        transform: perspective(0px) rotateX(0deg);
+        -webkit-box-shadow: 0 0 10px -1px #222222;
+        box-shadow: 0 0 10px -1px #222222;
+      }
+      .hex-node:before {
+        content: " ";
+        width: 0;
+        height: 0;
+        border-bottom: 30px solid var(--simple-concept-network-bg);
+        border-left: 52px solid transparent;
+        border-right: 52px solid transparent;
+        position: absolute;
+        top: -30px;
+        left: 0;
+      }
+
+      .hex-node {
+        margin-top: 30px;
+        width: 104px;
+        height: 60px;
+        background-color: var(--simple-concept-network-bg);
+        position: relative;
+      }
+      iron-icon {
+        width: 60px;
+        height: 60px;
+        margin: 0 22px;
+        color: var(--simple-concept-network-color);
+      }
+
+      .hex-node:after {
+        content: "";
+        width: 0;
+        position: absolute;
+        bottom: -30px;
+        left: 0;
+        border-top: 30px solid var(--simple-concept-network-bg);
+        border-left: 52px solid transparent;
+        border-right: 52px solid transparent;
+      }
+    </style>
+    <a tabindex="-1" href="[[src]]" disabled$="[[disabled]]">
+      <paper-button disabled$="[[disabled]]" class="hex-node" id="button"><iron-icon icon="[[icon]]"></iron-icon></paper-button>
+    </a>
+    <paper-tooltip
+      for="button"
+      position="bottom"
+      offset="45">
+      [[label]]
+    </paper-tooltip>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'simple-concept-network-node',
+      behaviors: [
+        HAXBehaviors.PropertiesBehaviors,
+        MaterializeCSSBehaviors.ColorBehaviors,
+        A11yBehaviors.A11y,
+      ],
+      properties: {
+        /**
+         * Primary color to use as the background
+         */
+        color: {
+          type: String,
+        },
+        /**
+         * Visualization reflected to attribute for styling
+         */
+        visualization: {
+          type: String,
+          reflectToAttribute: true,
+          value: '3d'
+        },
+        /**
+         * Icon to present
+         */
+        icon: {
+          type: String,
+        },
+        /**
+         * disabled status
+         */
+        disabled: {
+          type: Boolean,
+        },
+        /**
+         * title / label text
+         */
+        label: {
+          type: String,
+        },
+        /**
+         * Longer description used for more info
+         */
+        description: {
+          type: String,
+        },
+        /**
+         * source for a link
+         */
+        src: {
+          type: String,
+        },
+      },
+    });
+  </script>
+</dom-module>
