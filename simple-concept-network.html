@@ -58,14 +58,16 @@ a central concept, much like the ELMS:LN snowflake icon.
       }
     </style>
     <template is="dom-repeat" items="[[nodes]]" as="node">
-    <simple-concept-network-node
-      visualization="[[visualization]]"
-      src="[[node.src]]"
-      icon="[[node.icon]]"
-      label="[[node.label]]"
-      color="[[node.color]]"
-      disabled="[[node.disabled]]"
-      ></simple-concept-network-node>
+      <simple-concept-network-node
+        visualization="[[visualization]]"
+        src="[[node.src]]"
+        icon="[[node.icon]]"
+        icon-color="[[node.iconColor]]"
+        image="[[node.image]]"
+        label="[[node.label]]"
+        color="[[node.color]]"
+        disabled="[[node.disabled]]"
+        ></simple-concept-network-node>
     </template>
   </template>
 
@@ -185,10 +187,23 @@ a central concept, much like the ELMS:LN snowflake icon.
                     'options': [],
                   },
                   {
+                    'property': 'iconColor',
+                    'title': 'Icon Color',
+                    'description': 'Color for this icon',
+                    'inputMethod': 'colorpicker',
+                  },
+                  {
                     'property': 'label',
                     'title': 'Label',
                     'description': 'Label',
                     'inputMethod': 'textfield',
+                  },
+                  {
+                    'property': 'image',
+                    'title': 'Image',
+                    'description': 'Image for the background',
+                    'inputMethod': 'textfield',
+                    'validationType': 'url',
                   },
                   {
                     'property': 'description',

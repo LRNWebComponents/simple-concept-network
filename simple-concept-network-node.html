@@ -21,12 +21,15 @@ a central concept, much like the ELMS:LN snowflake icon.
     <style include="materializecss-styles">
       :host {
         display: inline-flex;
-        --simple-concept-network-bg: #206;
-        --simple-concept-network-color: #fff;
+        --simple-concept-network-color: #220066;
+        --simple-concept-network-bg: #FFFFFF;
       }
       paper-button {
         -webkit-transition: .6s transform ease-in-out;
         transition: .6s transform ease-in-out;
+        -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        color: var(--simple-concept-network-color);
       }
       :host[visualization="network"] paper-button:hover,
       :host[visualization="network"] paper-button:focus {
@@ -38,54 +41,95 @@ a central concept, much like the ELMS:LN snowflake icon.
         -ms-transform: perspective(600px) rotateX(60deg);
         -o-transform: perspective(600px) rotateX(60deg);
         transform: perspective(600px) rotateX(60deg);
-        -webkit-box-shadow: 0 0 10px -1px #222222;
-        box-shadow: 0 0 10px -1px #222222;
       }
       :host[visualization="3d"] paper-button:hover,
       :host[visualization="3d"] paper-button:focus {
         transform: perspective(0px) rotateX(0deg);
-        -webkit-box-shadow: 0 0 10px -1px #222222;
-        box-shadow: 0 0 10px -1px #222222;
-      }
-      .hex-node:before {
-        content: " ";
-        width: 0;
-        height: 0;
-        border-bottom: 30px solid var(--simple-concept-network-bg);
-        border-left: 52px solid transparent;
-        border-right: 52px solid transparent;
-        position: absolute;
-        top: -30px;
-        left: 0;
-      }
-
-      .hex-node {
-        margin-top: 30px;
-        width: 104px;
-        height: 60px;
-        background-color: var(--simple-concept-network-bg);
-        position: relative;
       }
       iron-icon {
-        width: 60px;
-        height: 60px;
-        margin: 0 22px;
+        width: 50px;
+        height: 50px;
+        margin: 1px 19px;
+        z-index: 3;
         color: var(--simple-concept-network-color);
       }
+      .hexagon {
+        position: relative;
+        width: 88px;
+        height: 50.81px;
+        margin: 25.40px 0;
+        background-size: auto 101.6136px;
+        background-position: center;
+        box-shadow: 0 0 20px rgba(0,0,0,0.6);
+        background-color: var(--simple-concept-network-bg);
+      }
 
-      .hex-node:after {
-        content: "";
-        width: 0;
+      .hexTop,
+      .hexBottom {
         position: absolute;
-        bottom: -30px;
+        z-index: 1;
+        width: 62.23px;
+        height: 62.23px;
+        overflow: hidden;
+        -webkit-transform: scaleY(0.5774) rotate(-45deg);
+        -ms-transform: scaleY(0.5774) rotate(-45deg);
+        transform: scaleY(0.5774) rotate(-45deg);
+        background: inherit;
+        left: 12.89px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.6);
+      }
+
+      /*counter transform the bg image on the caps*/
+      .hexTop:after,
+      .hexBottom:after {
+        content: "";
+        position: absolute;
+        width: 88.0000px;
+        height: 50.80682368868707px;
+        -webkit-transform:  rotate(45deg) scaleY(1.7321) translateY(-25.4034px);
+        -ms-transform:      rotate(45deg) scaleY(1.7321) translateY(-25.4034px);
+        transform:          rotate(45deg) scaleY(1.7321) translateY(-25.4034px);
+        -webkit-transform-origin: 0 0;
+        -ms-transform-origin: 0 0;
+        transform-origin: 0 0;
+        background: inherit;
+      }
+
+      .hexTop {
+        top: -31.1127px;
+      }
+
+      .hexTop:after {
+        background-position: center top;
+      }
+
+      .hexBottom {
+        bottom: -31.1127px;
+      }
+
+      .hexBottom:after {
+        background-position: center bottom;
+      }
+
+      .hexagon:after {
+        content: "";
+        position: absolute;
+        top: 0.0000px;
         left: 0;
-        border-top: 30px solid var(--simple-concept-network-bg);
-        border-left: 52px solid transparent;
-        border-right: 52px solid transparent;
+        width: 88.0000px;
+        height: 50.8068px;
+        z-index: 2;
+        background: inherit;
       }
     </style>
     <a tabindex="-1" href="[[src]]" disabled$="[[disabled]]">
-      <paper-button disabled$="[[disabled]]" class="hex-node" id="button"><iron-icon icon="[[icon]]"></iron-icon></paper-button>
+      <paper-button disabled$="[[disabled]]" id="button">
+      <div class="hexagon" style$="background-image: url([[image]]); background-color:[[color]];">
+        <div class="hexTop"></div>
+        <div class="hexBottom"></div>
+        <iron-icon icon="[[icon]]" style$="color:[[iconColor]];">></iron-icon>
+      </div>
+      </paper-button>
     </a>
     <paper-tooltip
       for="button"
@@ -111,6 +155,12 @@ a central concept, much like the ELMS:LN snowflake icon.
           type: String,
         },
         /**
+         * Icon color
+         */
+        iconColor: {
+          type: String,
+        },
+        /**
          * Visualization reflected to attribute for styling
          */
         visualization: {
@@ -122,6 +172,12 @@ a central concept, much like the ELMS:LN snowflake icon.
          * Icon to present
          */
         icon: {
+          type: String,
+        },
+        /**
+         * image to present
+         */
+        image: {
           type: String,
         },
         /**
